@@ -1,0 +1,37 @@
+#compdef dots
+
+local -a commands
+commands=(
+  'clean:Clean up caches (brew, cargo, gem, pip) and empty'
+  'dock:Apply macOS Dock settings'
+  'duti:Set default apps for file types (UTI)'
+  'edit:Open dotfiles in IDE ($VISUAL) and Git GUI ($VISUAL_GIT)'
+  'help:This help message'
+  'macos:Apply macOS system defaults'
+  'test:Run tests'
+  'update:Update packages and pkg managers (macOS, brew, casks, npm, yarn, cargo, pip3, gems)'
+)
+
+_arguments -s -S \
+  '1: :->command' \
+  '2: :->subcommand' \
+  '*:: :->args'
+
+case $state in
+  command)
+    _describe 'command' commands
+    ;;
+  subcommand)
+    case $words[2] in
+      help)
+        _message 'No subcommands for help'
+        ;;
+      *)
+        _message 'No subcommands for this command'
+        ;;
+    esac
+    ;;
+  args)
+    _message 'No additional arguments for this command'
+    ;;
+esac
