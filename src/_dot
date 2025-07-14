@@ -1,0 +1,19 @@
+#compdef dot
+
+_dot_completions() {
+  local -a commands
+  commands=(
+    'clean:Clean up caches (brew, cargo, gem, pip) and empty'
+    'dock:Apply macOS Dock settings'
+    'duti:Set default apps for file types (UTI)'
+    'edit:Open dotfiles in IDE ($VISUAL) and Git GUI ($VISUAL_GIT)'
+    'help:This help message'
+    'macos:Apply macos system defaults'
+    'test:Run tests'
+    'update:Update packages and pkg managers (macos, brew, casks, npm, yarn, cargo, pip3, gems)'
+  )
+
+  _describe 'command' commands
+}
+
+compdef _dot_completions dot
