@@ -1,0 +1,52 @@
+#compdef duti
+
+_duti() {
+  local -a commands
+  local -a options
+  local -a roles
+
+  commands=(
+    '-d:display the default handler for a UTI'
+    '-l:display all handlers for a UTI'
+    '-s:set the handler from data provided on the command line'
+    '-x:print information describing the default application for an extension'
+  )
+
+  options=(
+    '(-h --help)'{-h,--help}'[print usage and exit]'
+    '(-V --version)'{-V,--version}'[print version number and exit]'
+    '(-v --verbose)'{-v,--verbose}'[verbose output]'
+  )
+
+  roles=(
+    'all:application handles all roles for the given UTI'
+    'viewer:application handles reading and displaying documents with the given UTI'
+    'editor:application can manipulate and save the item. Implies viewer'
+    'shell:application can execute the item'
+    'none:application cannot open the item, but provides an icon for the given UTI'
+  )
+
+  _arguments -s \
+    $options \
+    $commands \
+    '(-d -l -s -x):: :->command' \
+    '*:: :_files'
+
+  case $state in
+    command)
+      case $words[1] in
+        -d|-l)
+          _arguments '1:UTI'
+          ;;
+        -s)
+          _arguments '1:bundle_id' '2:UTI or URL scheme or extension or MIME type' '3:role:($roles)'
+          ;;
+        -x)
+          _arguments '1:extension'
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_duti
