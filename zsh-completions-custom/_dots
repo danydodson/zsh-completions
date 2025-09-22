@@ -5,7 +5,6 @@
 # Main commands
 _typeset_commands=(
   clean:"Clean up caches (brew) and empty trash"
-  nvim:"Clean up nvim caches"
   dock:"Apply macOS Dock settings"
   duti:"Set default apps for file types (UTI)"
   edit:"Open dotfiles in IDE and Git GUI"
