@@ -1,0 +1,62 @@
+#compdef codium
+
+local context state line
+typeset -A opt_args
+
+_codium(){
+  _arguments -C \
+    '(-d --diff)'{-d,--diff}'[Compare two files with each other]:file 1:_files:file 2:_files' \
+    '(-m --merge)'{-m,--merge}'[Perform a three-way merge by providing paths for two modified versions, a base, and a result]:path 1:_files:path 2:_files:base:_files:result:_files' \
+    '(-a --add)'{-a,--add}'[Add folder(s) to the last active window]:folder:_files -/' \
+    '(-g --goto)'{-g,--goto}'[Open a file at the path on the specified line and character position]:goto:->goto' \
+    '(-n --new-window)'{-n,--new-window}'[Force open in new window]' \
+    '(-r --reuse-window)'{-r,--reuse-window}'[Reuse an opened window]' \
+    '(-w --wait)'{-w,--wait}'[Wait for the files to be closed before returning]' \
+    '--locale[Set locale]:locale:(en-US zh-TW)' \
+    '--user-data-dir[Specifies the directory that user data is kept in]:dir:_files -/' \
+    '--profile[Opens with the given profile]:profile' \
+    '(-h --help)'{-h,--help}'[Print usage]' \
+    '--extensions-dir[Set the root path for extensions]:dir:_files -/' \
+    '--list-extensions[List the installed extensions]' \
+    '--show-versions[Show versions of installed extensions]' \
+    '--category[Filter installed extensions by category]:category' \
+    '--install-extension[Installs or updates an extension]:extension' \
+    '--pre-release[Installs the pre-release version of the extension]' \
+    '--uninstall-extension[Uninstalls an extension]:extension' \
+    '--update-extensions[Update the installed extensions]' \
+    '--enable-proposed-api[Enables proposed API features for extensions]:ext-id' \
+    '-v[Print version]' \
+    '--version[Print version]' \
+    '--verbose[Print verbose output]' \
+    '--log[Log level]:level:(critical error warn info debug trace off)' \
+    '-s[Print process usage and diagnostics]' \
+    '--status[Print process usage and diagnostics]' \
+    '--prof-startup[Run CPU profiler during startup]' \
+    '--disable-extensions[Disable all installed extensions]' \
+    '--disable-extension[Disable the provided extension]:ext-id' \
+    '--sync[Turn sync on or off]:(on off)' \
+    '--inspect-extensions[Allow debugging and profiling of extensions]:port' \
+    '--inspect-brk-extensions[Debug/profiling with extension host paused]:port' \
+    '--disable-lcd-text[Disable LCD font rendering]' \
+    '--disable-gpu[Disable GPU acceleration]' \
+    '--disable-chromium-sandbox[Run as sudo/elevated mode]' \
+    '--telemetry[Shows all telemetry events which VS code collects]' \
+    '1: :->first' \
+    '*: :->rest'
+
+  case $state in
+    (goto)
+      _message "Format: file:line[:character]"
+      ;;
+    (first)
+      _values 'subcommand' \
+        'tunnel[Make the machine accessible from vscode.dev or others]' \
+        'serve-web[Run a server that exposes the editor in browsers]'
+      ;;
+    (rest)
+      _files
+      ;;
+  esac
+}
+
+_codium "$@"
