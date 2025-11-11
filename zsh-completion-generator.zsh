@@ -39,8 +39,7 @@ local -a programs
 zstyle -a :plugin:zsh-completion-generator programs programs
 (( ${#programs} )) || programs=(  )
 
-# Anonymous function
-# To have private variable scope
+# Anonymous function to have private variable scope
 () {
     local prg name help code
     local -a i

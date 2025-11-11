@@ -1,7 +1,7 @@
 #compdef transmission-remote
 
 # zsh completions for 'transmission-remote'
-# automatically generated with http://github.com/RobSis/zsh-completion-generator
+# automatically generated with https://github.com/danydodson/zsh-completion-generator
 local arguments
 
 arguments=(

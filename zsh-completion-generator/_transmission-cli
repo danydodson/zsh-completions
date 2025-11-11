@@ -1,7 +1,7 @@
 #compdef transmission-cli
 
 # zsh completions for 'transmission-cli'
-# automatically generated with http://github.com/RobSis/zsh-completion-generator
+# automatically generated with https://github.com/danydodson/zsh-completion-generator
 local arguments
 
 arguments=(
