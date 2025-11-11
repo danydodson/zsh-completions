@@ -1,16 +1,19 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
 
-# Parse getopt-style help texts for options
-# and generate zsh(1) completion function.
+# =============== // help2comp.py //
+#
+# Parse getopt-style help texts for 
+# options and generate zsh(1) completion function.
+#
+# Usage: 
+#   program --help | ./help2comp.py program_name
+#
 # http://github.com/RobSis/zsh-completion-generator
-
-# Usage: program --help | ./help2comp.py program_name
+# ---------------------------------------------------
 
 import sys
 import re
 from string import Template
-
 
 URL = 'https://github.com/danydodson/zsh-completion-generator'
 STRIP_CHARS = " \t\n,="
@@ -40,7 +43,8 @@ def cut_option(line):
     """
     # TODO: dare to make it regex-free?
     newline = line.strip(STRIP_CHARS)
-    opt = re.findall(r'^(-[a-zA-Z0-9\-]+(?:[\[\ =][^\-\ ][a-zA-Z\<\>\[\|\:\]\-\_\?#]*\]?)?)', line)
+    opt = re.findall(
+        r'^(-[a-zA-Z0-9\-]+(?:[\[\ =][^\-\ ][a-zA-Z\<\>\[\|\:\]\-\_\?#]*\]?)?)', line)
     if len(opt) > 0:
         newline = line.replace(opt[0], "", 1).strip(STRIP_CHARS)
         # return without parameter
@@ -60,7 +64,7 @@ def parse_options(help_text):
     previous_description_missing = False
     for line in help_text:
         line = line.strip(STRIP_CHARS)
-        if re.match(r'^--?[a-zA-Z0-9]+', line):  # starts with option
+        if re.match(r'^--?[a-zA-Z0-9]+', line): # starts with option
             previous_description_missing = False
             options = []
             while True:
@@ -99,7 +103,6 @@ def generate_argument_list(options):
     for opts in options:
         model = {}
         # remove unescapable chars.
-
         desc = list(_escape(opts[-1]))
         if len(desc) > 1 and desc[1].islower():
             desc[0] = desc[0].lower()
@@ -107,10 +110,12 @@ def generate_argument_list(options):
         model['style'] = ""
         if (len(opts) > 2):
             model['opts'] = ",".join(opts[:-1])
-            argument_list.append(Template(ARGUMENT_TEMPLATE).safe_substitute(model))
+            argument_list.append(
+                Template(ARGUMENT_TEMPLATE).safe_substitute(model))
         elif (len(opts) == 2):
             model['opt'] = opts[0]
-            argument_list.append(Template(SINGLE_ARGUMENT_TEMPLATE).safe_substitute(model))
+            argument_list.append(
+                Template(SINGLE_ARGUMENT_TEMPLATE).safe_substitute(model))
         else:
             pass
 
