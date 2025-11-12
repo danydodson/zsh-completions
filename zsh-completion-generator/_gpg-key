@@ -1,0 +1,31 @@
+#compdef gpg-key
+
+# Zsh completion for gpg-key
+
+# Dynamic list of key IDs (both public and private)
+_gpg_key_list() {
+  local expl
+  declare -a keys
+  keys=("${(@f)$(gpg --list-keys --with-colons 2>/dev/null | awk -F: '/^pub:/ {print $5}')}")
+  _describe 'public keys' keys
+}
+
+local arguments
+
+arguments=(
+  '--list-public[Show all public keys]'
+  '--list-private[Show all private keys]'
+  '--export-public[Export all public keys]'
+  '--export-private[Export all private keys]'
+  '--copy-public[Copy a specific public key to clipboard]:key ID:_gpg_key_list'
+  '--copy-private[Copy a specific private key to clipboard]:key ID:_gpg_key_list'
+  '--show-fingerprint[Show fingerprint for a key]:key ID:_gpg_key_list'
+  '--delete-public[Delete a public key]:key ID:_gpg_key_list'
+  '--delete-private[Delete a private key]:key ID:_gpg_key_list'
+  '--import[Import key from a file]:file:_files'
+  '--send-key[Send a key to keyserver]:key ID:_gpg_key_list'
+  '--receive-key[Fetch key from keyserver]:key ID:_gpg_key_list'
+  '*:filename:_files'
+)
+
+_arguments -s $arguments
